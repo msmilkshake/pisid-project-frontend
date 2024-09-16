@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tail Wag Labs</title>
+    {% load static %}
+    <link rel="icon" href="{% static 'tailwaglabs/images/favicon.png' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'tailwaglabs/css/styles.css' %}?{% now 'U' %}?">
+</head>
+<body id="login-body" class="login">
+
+
+<main>
+    <section id="login-section">
+        <div id="title">
+            <img src="{% static 'tailwaglabs/images/title.png' %}" alt="Tail Wag Labs Logo" class="logo">
+        </div>
+        <div>
+            <img src="{% static 'tailwaglabs/images/logo.jpg' %}" alt="Tail Wag Labs Logo" class="logo">
+        </div>
+        <p>Monitorização de Ratos em Laboratório</p>
+
+        <h2>Login</h2>
+
+        <form action="{% url 'tailwaglabs:login_view' %}" method="post">
+            {% csrf_token %}
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required>
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+            <p class="forgot-password">Esqueceu-se da Password?</p>
+            <button type="submit">LOG IN</button>
+        </form>
+    </section>
+</main>
+
+<footer>
+    <p class="copy">©2024 Tail Wag Labs</p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,59 @@
+{% extends "tailwaglabs/experiencias.html" %}
+{% block title %}
+    Perfil
+{% endblock %}
+
+{% block content %}
+
+    <div id="page-body">
+        <div class="experiencia">
+            <h1>Bem vindo {{ request.user.username }}</h1>
+            <br>
+            <h3>Role: {{ role }}</h3>
+            <h3>Mail: {{ request.user.email }}</h3>
+            <h3>Telefone: {{ telefone }}</h3>
+            <br>
+            <br>
+            <h3>Editar o seu perfil:</h3>
+            <br>
+        </div>
+        <div class="perfil">
+            <form action="{% url 'tailwaglabs:alterarutilizador' %}" method="post">
+                {% csrf_token %}
+                <div class="screen-section">
+                    <label for="telefone">Telefone:</label>
+                    <input type="tel" name="telefone" id="telefone" value="{{ telefone }}" required>
+                </div>
+                <div class="screen-section">
+                    <label for="password">Password:</label>
+                    <input oninput="check()" type="password" name="password" id="password">
+                </div>
+                <div class="screen-section">
+                    <label for="confpassword">Confirmar Password:</label>
+                    <input oninput="check()" type="password" name="confpassword" id="confpassword">
+                </div>
+                <div class="screen-section">
+                    <div>
+                        <input type="submit" value="Voltar" formnovalidate
+                               formaction="{% url 'tailwaglabs:index' %}">
+                    </div>
+                    <div>
+                        <input type="submit" value="Aplicar">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}
+{% block scripts %}
+    function check() {
+    var input = document.getElementById('confpassword');
+    console.log(input.value);
+    console.log(document.getElementById('password').value);
+    if (input.value != document.getElementById('password').value) {
+    input.setCustomValidity('Passwords must match.');
+    } else {
+    input.setCustomValidity('');
+    }
+    }
+{% endblock %}

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Registration</title>
+</head>
+<body>
+{% if error_message %}
+    <p><strong>{{ error_message }}</strong></p>
+{% endif %}
+<form action="{% url 'tailwaglabs:signup' %}" method="post">
+    {% csrf_token %}
+    <label for="username">Username</label>
+    <input type="text" name="username" id="username" size="20">
+    <br><br>
+    <label for="email">Email</label>
+    <input type="email" name="email" id="email" size="20">
+    <br><br>
+    <label for="name">Nome</label>
+    <input type="text" name="name" id="name" size="20">
+    <br><br>
+    <label for="phone">Telemóvel (+351)</label>
+    <input type="tel" name="phone" id="phone" size="20" pattern="[0-9]{9}">
+    <br><br>
+    <label for="role">Tipo de Utilizador</label>
+    <select name="role" id="role">
+        <option value="1">Administrador</option>
+        <option value="2">Técnico</option>
+        <option value="3">Investigador</option>
+    </select>
+    <input type="submit" value="Registar">
+    <input type="submit" value="Voltar" formaction="{% url 'tailwaglabs:login_view' %}">
+</form>
+</body>
+</html>

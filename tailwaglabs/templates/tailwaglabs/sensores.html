@@ -1,0 +1,41 @@
+{% extends "tailwaglabs/experiencias.html" %}
+{% block title %}
+    Sensores
+{% endblock %}
+
+{% block content %}
+    <div id="page-body">
+        <div class="experiencia">
+            <h1>Sensores (atualizados a cada 3 segundos)</h1>
+            <h3>Temperatura sensor 1: <span id="sensor1"></span>ºC</h3>
+            <h3>Temperatura sensor 2: <span id="sensor2"></span>ºC</h3>
+            {% if error_message %}
+                <h2>{{ error_message }}</h2>
+            {% else %}
+                <br>
+                <h2>Quantidade de ratos por sala</h2>
+                <div id="salas"></div>
+            {% endif %}
+        </div>
+
+    </div>
+{% endblock %}
+{% block scripts %}
+    function update() {
+    $.get('/tailwaglabs/leituras_momento_JSON', function(data) {
+    $('#sensor1').text(data.temp_sensor1);
+    $('#sensor2').text(data.temp_sensor2);
+    if (data.salas === null){return;}
+    let html = "";
+    for (var i = 0; i < data.salas.length; i++)
+    {
+    text = "Sala ' + (i+1) + '"
+    html += '<h3>Sala ' + (i+1) + ': ' + data.salas[i] + '</h3>'
+    document.getElementById("salas").innerHTML = html;
+    }
+    })
+    }
+    $(document).ready ( update());
+    // Call the function every 3 seconds
+    setInterval(update, 3000);
+{% endblock %}

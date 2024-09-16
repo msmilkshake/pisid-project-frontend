@@ -1,0 +1,274 @@
+
+header {
+    background-color: #f1f1f1;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 1;
+}
+#title{
+    width: 100%;
+    padding-top: 5px;
+    padding-bottom: 30px;
+    background-color: #ffffff;
+}
+
+#login-body{
+    background-color: #f1f1f1;
+    font-family: sans-serif;
+    margin: 0;
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+.login div {
+    background-color: #f1f1f1;
+    display: flex;
+    justify-content: center;
+}
+
+.login p {
+    margin: 20px;
+    display: flex;
+    justify-content: center;
+    color: black;
+    font-size: 20px;
+}
+
+.logo {
+    width: 300px; /* Adjust width as needed */
+    height: auto;
+}
+
+.login h1 {
+    margin: 0;
+    padding-bottom: 20px;
+}
+
+p {
+    margin-top: 5px;
+    color: #888;
+}
+
+.login main {
+    padding: 20px;
+    flex-grow: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#login-section {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    width: 400px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+h2 {
+    margin-bottom: 20px;
+}
+
+.login form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.login label {
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.login input[type="text"],
+.login [type="password"] {
+    box-sizing: border-box;
+    justify-content: center;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+.forgot-password {
+    font-size: 12px;
+    margin-bottom: 10px;
+    color: blue;
+}
+
+.login button[type="submit"] {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 3px;
+}
+
+.nav-item {
+    font-family: "Lato";
+    font-size: 2.2rem;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    background-color: #3759d7;
+    margin-right: 5px;
+    height:50px;
+}
+.nav-profile {
+    font-family: "Lato";
+    font-size: 2.2rem;
+    display: flex;
+    padding: 5px;
+    background-color: #3759d7;
+    margin-right: 5px;
+    align-items: center;
+}
+.nav-item:hover, .nav-profile:hover {
+    border-radius: 10px;
+    background-color: #4a6fcf ;
+    transition: background-color 0.1s linear;
+    text-decoration: none;
+    color: aliceblue;
+}
+nav {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    margin-bottom: 50px;
+}
+nav a, footer p {
+    text-decoration: none;
+    color: aliceblue;
+}
+
+nav a:active {
+    color: orange;
+}
+
+nav {
+    background-color: #3759d7;
+    overflow: auto;
+    padding: 10px 0;
+}
+footer{
+    background-color: #3759d7;
+    overflow: auto;
+    padding: 10px 0;
+    display: flex;
+    justify-content: center;
+    color: black;
+    font-size: 20px;
+    width: 100%;
+    bottom: 0;
+}
+
+.emoji {
+    font-size: 1.1rem;
+    margin-right: 6px;
+}
+.container {
+    width: 80%;
+    margin: 0 auto;
+    display: flex;
+    flex-flow: row wrap;
+}
+#profile-container{
+    flex:2;
+    text-align:center;
+    font-size: 1.2rem;
+    justify-content: flex-end;
+}
+
+.experiencia{
+    width:750px;
+    margin:auto;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center; /* Center items horizontally */
+}
+
+#novaexperiencia-screen{
+    display: none;
+    width: 100%;
+    flex-direction: column;
+}
+#novaexperiencia-screen input, #alterarexperiencia-screen input{
+    width: 80px;
+    height:40px;
+    margin: 3px 10px 3px 5px;
+}
+#novaexperiencia-screen label, #alterarexperiencia-screen label{
+    width:150px;
+}
+#novaexperiencia-screen textarea, #alterarexperiencia-screen textarea{
+    margin: 3px 10px 3px 5px;
+}
+#novaexperiencia-screen form, #alterarexperiencia-screen form{
+    display: block;
+    align-items: center; /* Vertically center the label and input */
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+#example-table {
+    margin: 20px;
+}
+.screen-section{
+    /*width:750px;*/
+    display: flex;
+    align-items: center;
+    /*justify-content: center;*/
+}
+.screen-section div{
+    padding: 10px;
+    margin: auto;
+}
+
+#alterarexperiencia-screen{
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+}
+.table{
+    width: 80%;
+    margin: auto;
+}
+
+.perfil {
+    width:500px;
+    margin:auto;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center; /* Center items horizontally */
+}
+
+.perfil input {
+    margin: 5px 0px 5px 10px;
+}
+
+.perfil label {
+    width: 70px;
+    height: 30px;
+}
+
+.perfil button[type="submit"] {
+    margin-top: 15px;
+}
+
+#start-delete-buttons input {
+    width:140px;
+}
+
+#page-body{
+    min-height:758px;
+}

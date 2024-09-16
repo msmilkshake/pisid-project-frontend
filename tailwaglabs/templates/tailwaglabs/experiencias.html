@@ -1,0 +1,278 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}
+        Experiências
+    {% endblock %}</title>
+    <link href="https://unpkg.com/tabulator-tables@6.2.0/dist/css/tabulator_modern.min.css" rel="stylesheet">
+    <script type="text/javascript" src="https://unpkg.com/tabulator-tables@6.2.0/dist/js/tabulator.min.js"></script>
+    <link rel="icon" href="{% static 'tailwaglabs/images/favicon.png' %}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'tailwaglabs/css/styles.css' %}?{% now 'U' %}?">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.js"></script>
+    <script src="{% static 'tailwaglabs/scripts/scripts.js' %}"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato"/>
+</head>
+<body>
+<nav>
+    <div class="container">
+        <div style="flex:4;" class="container">
+            <a href={% url 'tailwaglabs:index' %} class="nav-item" target="_self">
+                <span class="emoji">🏠</span>Página Inicial
+            </a>
+            <a href={% url 'tailwaglabs:leituras_momento' %} class="nav-item" target="_self">
+                <span class="emoji">📟</span>Sensores
+            </a>
+        </div>
+        <div id="profile-container" class="container">
+            <a href={% url 'tailwaglabs:perfil' %} class="nav-profile" target="_self">
+                {{ request.user.username }}
+            </a>
+            <a href={% url 'tailwaglabs:logout_view' %} class="nav-item" target="_self">
+                <span class="emoji">↪</span>Terminar sessão
+            </a>
+
+        </div>
+    </div>
+</nav>
+{% block content %}
+
+    <div id="page-body">
+
+        <div class="table">
+            <div id="example-table"></div>
+        </div>
+
+        {% if not id_exp %}
+            <div class="experiencia">
+                <div id="novaexperiencia-button">
+                    <button type="button"
+                            onclick="toggledivExperiencia(document.getElementById('novaexperiencia-screen'), this)">
+                        Nova Experiência
+                    </button>
+                </div>
+                <br>
+                <div id="novaexperiencia-screen">
+                    <form action="{% url 'tailwaglabs:criarexperiencia' %}" method="post">
+                        {% csrf_token %}
+                        <div class="screen-section">
+                            <label for="nr_ratos">Nº de ratos</label>
+                            <input type="text" name="nr_ratos" id="nr_ratos" required>
+                            <label for="lim_ratos_sala">Limite de ratos por sala</label>
+                            <input type="number" name="lim_ratos_sala" id="lim_ratos_sala" value="25" required>
+                            <label for="lim_ratos_movimento">Limite de tempo sem movimento</label>
+                            <input type="number" name="lim_ratos_movimento" id="lim_ratos_movimento" value="15"
+                                   required>
+                        </div>
+                        <div class="screen-section">
+                            <label for="temp_ideal">Temperatura ideal</label>
+                            <input type="number" name="temp_ideal" id="temp_ideal" value="20" required>
+                            <label for="temp_minima">Temperatura mínima</label>
+                            <input type="number" name="temp_minima" id="temp_minima" value="10" required>
+                            <label for="temp_maxima">Temperatura máxima</label>
+                            <input type="number" name="temp_maxima" id="temp_maxima" value="35" required>
+                        </div>
+                        <div class="screen-section">
+                            <label for="substancia">Substância</label>
+                            <input type="text" name="substancia" id="substancia" required>
+                        </div>
+                        <div class="screen-section">
+                            <label for="descricao">Descrição</label><br>
+                            <textarea name="descricao" id="descricao" cols="50" rows="5"></textarea>
+                        </div>
+                        <div class="screen-section">
+                            <label for="outlier_leiturasnumero">Nº Leituras para cálculo outliers</label>
+                            <input type="number" name="outlier_leiturasnumero" id="outlier_leiturasnumero" value="15"
+                                   required>
+                            <label for="variacaodrastica_intervalotempo">Duração do intervalo de tempo
+                                (segundos)</label>
+                            <input type="number" name="variacaodrastica_intervalotempo"
+                                   id="variacaodrastica_intervalotempo"
+                                   value="10" required>
+                        </div>
+                        <div class="screen-section">
+                            <label for="outlier_vartempmax">Variação máxima de temperatura (outlier)</label>
+                            <input type="number" name="outlier_vartempmax" id="outlier_vartempmax" value="10" required>
+                            <label for="variacaodrastica_temperatura">Variação máxima no intervalo de tempo</label>
+                            <input type="number" name="variacaodrastica_temperatura" id="variacaodrastica_temperatura"
+                                   value="10"
+                                   required>
+                        </div>
+                        <div class="screen-section">
+                            <div>
+                                <input type="submit" value="Criar">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        {% endif %}
+
+        {% if id_exp %}
+            <div class="experiencia">
+                <div id="alterarexperiencia-screen">
+                    <form action="{% url 'tailwaglabs:alterarexperiencia' id_exp %}" method="post">
+                        {% csrf_token %}
+                        <div class="screen-section">
+                            <label for="nr_ratos">Nº de ratos</label>
+                            <input type="text" name="nr_ratos" id="nr_ratos" value="{{ parametros.numeroratosinicial }}"
+                                   required>
+                            <label for="lim_ratos_sala">Limite de ratos por sala</label>
+                            <input type="number" name="lim_ratos_sala" id="lim_ratos_sala"
+                                   value="{{ parametros.limiteratossala }}"
+                                   required>
+                            <label for="lim_ratos_movimento">Limite de tempo sem movimento</label>
+                            <input type="number" name="lim_ratos_movimento" id="lim_ratos_movimento"
+                                   value="{{ parametros.segundossemmovimento }}" required>
+                        </div>
+                        <div class="screen-section">
+                            <label for="temp_ideal">Temperatura ideal</label>
+                            <input type="number" name="temp_ideal" id="temp_ideal"
+                                   value="{{ parametros.temperaturaideal }}"
+                                   required>
+                            <label for="temp_minima">Temperatura mínima</label>
+                            <input type="number" name="temp_minima" id="temp_minima"
+                                   value="{{ parametros.temperaturaminima }}"
+                                   required>
+                            <label for="temp_maxima">Temperatura máxima</label>
+                            <input type="number" name="temp_maxima" id="temp_maxima"
+                                   value="{{ parametros.temperaturamaxima }}"
+                                   required>
+                        </div>
+                        <div class="screen-section">
+                            <label for="substancia">Substância</label>
+                            <input type="text" name="substancia" id="substancia" value="{{ experiencia.substancia }}"
+                                   required>
+                        </div>
+                        <div class="screen-section">
+                            <label for="descricao">Descrição</label><br>
+                            <textarea name="descricao" id="descricao" cols="50"
+                                      rows="5">{{ experiencia.descricao }}</textarea>
+                        </div>
+                        <div class="screen-section">
+                            <label for="outlier_leiturasnumero">Nº Leituras para cálculo outliers</label>
+                            <input type="number" name="outlier_leiturasnumero" id="outlier_leiturasnumero"
+                                   value="{{ parametros.outlierleiturasnumero }}" required>
+                            <label for="variacaodrastica_intervalotempo">Duração do intervalo de tempo
+                                (segundos)</label>
+                            <input type="number" name="variacaodrastica_intervalotempo"
+                                   id="variacaodrastica_intervalotempo"
+                                   value="{{ parametros.variacaodrasticaintervalotempo }}" required>
+                        </div>
+                        <div class="screen-section">
+                            <label for="outlier_vartempmax">Variação máxima de temperatura (outlier)</label>
+                            <input type="number" name="outlier_vartempmax" id="outlier_vartempmax"
+                                   value="{{ parametros.outliervariacaotempmax }}" required>
+                            <label for="variacaodrastica_temperatura">Variação máxima de temperatura no intervalo de
+                                tempo</label>
+                            <input type="number" name="variacaodrastica_temperatura" id="variacaodrastica_temperatura"
+                                   value="{{ parametros.variacaodrasticatemperatura }}" required>
+                        </div>
+                        <br>
+                        <div class="screen-section">
+                            {% if experiencia.idestado.idestado == 3 %}
+                                {% for sala in salas %}
+                                    <div>
+                                        Sala {{ sala.sala }}: {{ sala.ratos }} <br>
+                                    </div>
+                                {% endfor %}
+                            {% endif %}
+
+                        </div>
+                        <div class="screen-section">
+                            <div>
+                                <input type="submit" value="Voltar" formnovalidate
+                                       formaction="{% url 'tailwaglabs:index' %}">
+                            </div>
+                            {% if experiencia.idestado.idestado != 3 %}
+                                <div>
+                                    <input type="submit" value="Aplicar">
+                                </div>
+                            {% endif %}
+                            <div id="start-delete-buttons">
+                                {% if experiencia.idestado.idestado == 1 %}
+
+                                    <input type="submit" value="Iniciar experiência" formnovalidate
+                                           formaction="{% url 'tailwaglabs:iniciarexperiencia' id_exp %}">
+                                {% elif experiencia.idestado.idestado == 2 %}
+                                    <input type="submit" value="Concluir experiência" formnovalidate
+                                           formaction="{% url 'tailwaglabs:concluirexperiencia' id_exp %}">
+                                {% endif %}
+                                <input id="apagar-button" type="submit" value="Apagar experiência" formnovalidate
+                                       formaction="{% url 'tailwaglabs:apagarexperiencia' id_exp %}">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}
+<footer>
+    <p class="copy">©2024 Tail Wag Labs</p>
+</footer>
+
+<script>
+    {% block scripts %}
+        var tabledata = [
+            {% for item in object_list %}
+                {
+                    "id": "{{ item.idexperiencia }}",
+                    "substancia": "{{ item.substancia }}",
+                    "idinvestigador": "{{ item.idinvestigador.nome }}",
+                    "idestado": "{{ item.idestado.designacao }}",
+                    "datahorainicio": "{{ item.datahorainicio }}",
+                    "datahorafim": "{{ item.datahorafim }}",
+                    "descricao": "{{ item.descricao }}"
+                },
+            {% endfor %}
+        ];
+
+        var table = new Tabulator("#example-table", {
+            columns: [
+                {title: "ID", field: "id"},
+                {title: "Substância", field: "substancia"},
+                {title: "Investigador", field: "idinvestigador"},
+                {title: "Estado", field: "idestado"},
+                {title: "Início", field: "datahorainicio"},
+                {title: "Fim", field: "datahorafim"},
+                {title: "Descricão", field: "descricao"},
+            ],
+            data: tabledata,
+            layout: "fitColumns",
+            pagination: true,
+            paginationMode: "local",
+            paginationSize: 10,
+        });
+        table.on("rowClick", function (e, row) {
+            window.location.href = "/tailwaglabs/alterarexperiencia/" + row.getData().id;
+        });
+
+        if ("{{ password_message }}") {
+            window.onload = function () {
+                alert("{{ password_message }}");
+            };
+        }
+        if ("{{ error_message }}") {
+            window.onload = function () {
+                alert("{{ error_message }}");
+            };
+        }
+
+        document.getElementById("apagar-button").addEventListener("click", function (event) {
+            if (!confirm("Tem a certeza que pretende eliminar a experiência {{ id_exp }}?")) {
+                event.preventDefault();
+            }
+        });
+
+
+
+
+    {% endblock %}
+</script>
+
+</body>
+</html>
